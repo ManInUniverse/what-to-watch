@@ -1,10 +1,12 @@
 import React from 'react';
-import FilmCardSmall from '../../components/film-card-small/film-card-small';
+import FilmsList from '../../components/films-list/films-list';
+import { FilmType } from '../../types/film-type';
 
 type MainPageProps = {
   title: string;
   genre: string;
   releaseDate: string;
+  films: FilmType[];
 }
 
 function MainPage(props: MainPageProps): JSX.Element {
@@ -108,9 +110,7 @@ function MainPage(props: MainPageProps): JSX.Element {
             </li>
           </ul>
 
-          <div className="catalog__films-list">
-            { new Array(20).fill(<FilmCardSmall />) }
-          </div>
+          <FilmsList films={ props.films } />
 
           <div className="catalog__more">
             <button className="catalog__button" type="button">Show more</button>

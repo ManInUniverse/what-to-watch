@@ -1,15 +1,6 @@
-type Review = {
-  comment: string;
-  date: string;
-  id: number;
-  rating: number;
-  user: {
-    id: number;
-    name: string;
-  };
-};
+import { ReviewType } from '../types/review-type';
 
-const reviews: Review[] = [
+const reviews: ReviewType[] = [
   {
     comment: 'Hasta la vista, baby!',
     date: 'Mon Dec 25 1991 00:00:00 GMT+0300 (Москва, стандартное время)',

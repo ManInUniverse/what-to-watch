@@ -11,10 +11,13 @@ import SignInPage from '../../pages/sign-in-page/sign-in-page';
 
 import PrivateRoute from '../../components/private-route/private-route';
 
+import { FilmType } from '../../types/film-type';
+
 type AppProps = {
   title: string;
   genre: string;
   releaseDate: string;
+  films: FilmType[];
 }
 
 function App(props: AppProps): JSX.Element {
@@ -23,7 +26,7 @@ function App(props: AppProps): JSX.Element {
       <Routes>
         <Route
           path={ AppRoute.Main }
-          element={ <MainPage title={ props.title } genre={ props.genre } releaseDate={ props.releaseDate }/> }
+          element={ <MainPage title={ props.title } genre={ props.genre } releaseDate={ props.releaseDate } films={ props.films } /> }
         />
         <Route
           path={ AppRoute.SignIn }
