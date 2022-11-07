@@ -1,8 +1,12 @@
+import './not-found-page.css';
+
 function NotFoundPage(): JSX.Element {
   return (
-    <div className="page-content" style={ { 'height': '100vh' } }>
+    <div className="page-content not-found-page">
 
-      <h1 style={ { 'textAlign': 'center', 'margin': '185px 0 100px' } }>404. Page not found</h1>
+      <div className="not-found-page__container">
+        <h1 className="page-title">404. Page not found</h1>
+      </div>
 
       <footer className="page-footer">
         <div className="logo">
