@@ -12,6 +12,7 @@ import SignInPage from '../../pages/sign-in-page/sign-in-page';
 import PrivateRoute from '../../components/private-route/private-route';
 
 import { FilmType } from '../../types/film-type';
+import ScrollToTop from '../scroll-to-top/scroll-to-top';
 
 type AppProps = {
   title: string;
@@ -23,6 +24,7 @@ type AppProps = {
 function App(props: AppProps): JSX.Element {
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <Routes>
         <Route
           path={ AppRoute.Main }
@@ -42,7 +44,7 @@ function App(props: AppProps): JSX.Element {
         />
         <Route
           path={ AppRoute.Film }
-          element={ <FilmPage /> }
+          element={ <FilmPage films={ props.films } /> }
         />
         <Route
           path={ AppRoute.AddReview }
