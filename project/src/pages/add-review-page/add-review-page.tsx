@@ -1,29 +1,55 @@
-function AddReviewPage(): JSX.Element {
+import { Link, NavLink } from 'react-router-dom';
+import { AppRoute } from '../../const';
+import { FilmType } from '../../types/film-type';
+import { useParams } from 'react-router-dom';
+
+import NotFoundPage from '../not-found-page/not-found-page';
+
+type AddReviewPageProps = {
+  films: FilmType[];
+}
+
+function AddReviewPage(props: AddReviewPageProps): JSX.Element {
+  const params = useParams();
+  const currentFilmId: unknown = params.id;
+  const currentFilm = props.films.find((film) => film.id === Number(currentFilmId));
+
+  if (!currentFilm) {
+    return (
+      <NotFoundPage />
+    );
+  }
+
   return (
-    <section className="film-card film-card--full">
+    <section className="film-card film-card--full" style={ { 'backgroundColor': currentFilm.backgroundColor } }>
       <div className="film-card__header">
         <div className="film-card__bg">
-          <img src="img/the-grand-budapest-hotel-bg.jpg" alt="The Grand Budapest Hotel" />
+          <img src={ currentFilm.backgroundImage } alt={ currentFilm.name } />
         </div>
 
         <h1 className="visually-hidden">WTW</h1>
 
         <header className="page-header">
           <div className="logo">
-            <a href="main.html" className="logo__link">
+            <Link className="logo__link" to={ AppRoute.Main }>
               <span className="logo__letter logo__letter--1">W</span>
               <span className="logo__letter logo__letter--2">T</span>
               <span className="logo__letter logo__letter--3">W</span>
-            </a>
+            </Link>
           </div>
 
           <nav className="breadcrumbs">
             <ul className="breadcrumbs__list">
               <li className="breadcrumbs__item">
-                <a href="film-page.html" className="breadcrumbs__link">The Grand Budapest Hotel</a>
+                <NavLink className="breadcrumbs__link" to={ `/films/${ currentFilm.id }` }>{ currentFilm.name }</NavLink>
               </li>
               <li className="breadcrumbs__item">
-                <a className="breadcrumbs__link" href="/">Add review</a>
+                <NavLink
+                  className="breadcrumbs__link"
+                  to={ `/films/${ currentFilm.id }/review` }
+                  style={ ({ isActive }) => isActive ? { 'pointerEvents': 'none', 'cursor': 'default' } : undefined }
+                >Add review
+                </NavLink>
               </li>
             </ul>
           </nav>
@@ -41,7 +67,7 @@ function AddReviewPage(): JSX.Element {
         </header>
 
         <div className="film-card__poster film-card__poster--small">
-          <img src="img/the-grand-budapest-hotel-poster.jpg" alt="The Grand Budapest Hotel poster" width="218" height="327" />
+          <img src={ currentFilm.posterImage } alt={ `${ currentFilm.name } poster` } width="218" height="327" />
         </div>
       </div>
 

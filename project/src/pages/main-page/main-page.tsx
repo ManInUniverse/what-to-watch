@@ -3,18 +3,17 @@ import FilmsList from '../../components/films-list/films-list';
 import { FilmType } from '../../types/film-type';
 
 type MainPageProps = {
-  title: string;
-  genre: string;
-  releaseDate: string;
   films: FilmType[];
 }
 
 function MainPage(props: MainPageProps): JSX.Element {
+  const promoFilm = props.films[0];
+
   return (
     <React.Fragment>
       <section className="film-card">
         <div className="film-card__bg">
-          <img src="img/the-grand-budapest-hotel-bg.jpg" alt="The Grand Budapest Hotel" />
+          <img src={ promoFilm.backgroundImage } alt={ promoFilm.name } />
         </div>
 
         <h1 className="visually-hidden">WTW</h1>
@@ -43,14 +42,14 @@ function MainPage(props: MainPageProps): JSX.Element {
         <div className="film-card__wrap">
           <div className="film-card__info">
             <div className="film-card__poster">
-              <img src="img/the-grand-budapest-hotel-poster.jpg" alt="The Grand Budapest Hotel poster" width="218" height="327" />
+              <img src={ promoFilm.posterImage } alt={ `${ promoFilm.name } poster` } width="218" height="327" />
             </div>
 
             <div className="film-card__desc">
-              <h2 className="film-card__title">{ props.title }</h2>
+              <h2 className="film-card__title">{ promoFilm.name }</h2>
               <p className="film-card__meta">
-                <span className="film-card__genre">{ props.genre }</span>
-                <span className="film-card__year">{ props.releaseDate }</span>
+                <span className="film-card__genre">{ promoFilm.genre }</span>
+                <span className="film-card__year">{ promoFilm.released }</span>
               </p>
 
               <div className="film-card__buttons">

@@ -1,7 +1,26 @@
-function PlayerPage(): JSX.Element {
+import { FilmType } from '../../types/film-type';
+import { useParams } from 'react-router-dom';
+
+import NotFoundPage from '../not-found-page/not-found-page';
+
+type PlayerPageProps = {
+  films: FilmType[];
+}
+
+function PlayerPage(props: PlayerPageProps): JSX.Element {
+  const params = useParams();
+  const currentFilmId: unknown = params.id;
+  const currentFilm = props.films.find((film) => film.id === Number(currentFilmId));
+
+  if (!currentFilm) {
+    return (
+      <NotFoundPage />
+    );
+  }
+
   return (
     <div className="player">
-      <video src="#" className="player__video" poster="img/player-poster.jpg"></video>
+      <video src={ currentFilm.videoLink } className="player__video" poster="img/player-poster.jpg"></video>
 
       <button type="button" className="player__exit">Exit</button>
 

@@ -1,8 +1,11 @@
 import React from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { AppRoute } from '../../components/const';
+import { AppRoute } from '../../const';
 import { FilmType } from '../../types/film-type';
 import NotFoundPage from '../not-found-page/not-found-page';
+
+import { RatingDescription } from '../../const';
+import FilmsList from '../../components/films-list/films-list';
 
 type FilmPageProps = {
   films: FilmType[];
@@ -12,6 +15,24 @@ function FilmPage(props: FilmPageProps): JSX.Element {
   const params = useParams();
   const currentFilmId: unknown = params.id;
   const currentFilm = props.films.find((film) => film.id === Number(currentFilmId));
+
+  const rateFilm = (rating: FilmType['rating']) => {
+    if (rating < 3) {
+      return RatingDescription.Bad;
+    }
+    if (rating >= 3 && rating < 5) {
+      return RatingDescription.Normal;
+    }
+    if (rating >= 5 && rating < 8) {
+      return RatingDescription.Good;
+    }
+    if (rating >= 8 && rating < 10) {
+      return RatingDescription.VeryGood;
+    }
+    if (rating >= 10) {
+      return RatingDescription.Awesome;
+    }
+  };
 
   if (!currentFilm) {
     return (
@@ -72,7 +93,7 @@ function FilmPage(props: FilmPageProps): JSX.Element {
                   <span>My list</span>
                   <span className="film-card__count">9</span>
                 </button>
-                <a href="add-review.html" className="btn film-card__button">Add review</a>
+                <Link className="btn film-card__button" to={ `/films/${ currentFilm.id }/review` }>Add review</Link>
               </div>
             </div>
           </div>
@@ -100,9 +121,11 @@ function FilmPage(props: FilmPageProps): JSX.Element {
               </nav>
 
               <div className="film-rating">
-                <div className="film-rating__score">{ currentFilm.rating }</div>
+                <div className="film-rating__score">{ currentFilm.rating.toFixed(1) }</div>
                 <p className="film-rating__meta">
-                  <span className="film-rating__level">Very good</span>
+                  <span className="film-rating__level">
+                    { rateFilm(currentFilm.rating) }
+                  </span>
                   <span className="film-rating__count">{ `${ currentFilm.scoresCount } ratings` }</span>
                 </p>
               </div>
@@ -123,52 +146,16 @@ function FilmPage(props: FilmPageProps): JSX.Element {
         <section className="catalog catalog--like-this">
           <h2 className="catalog__title">More like this</h2>
 
-          <div className="catalog__films-list">
-            <article className="small-film-card catalog__films-card">
-              <div className="small-film-card__image">
-                <img src="img/fantastic-beasts-the-crimes-of-grindelwald.jpg" alt="Fantastic Beasts: The Crimes of Grindelwald" width="280" height="175" />
-              </div>
-              <h3 className="small-film-card__title">
-                <a className="small-film-card__link" href="film-page.html">Fantastic Beasts: The Crimes of Grindelwald</a>
-              </h3>
-            </article>
-
-            <article className="small-film-card catalog__films-card">
-              <div className="small-film-card__image">
-                <img src="img/bohemian-rhapsody.jpg" alt="Bohemian Rhapsody" width="280" height="175" />
-              </div>
-              <h3 className="small-film-card__title">
-                <a className="small-film-card__link" href="film-page.html">Bohemian Rhapsody</a>
-              </h3>
-            </article>
-
-            <article className="small-film-card catalog__films-card">
-              <div className="small-film-card__image">
-                <img src="img/macbeth.jpg" alt="Macbeth" width="280" height="175" />
-              </div>
-              <h3 className="small-film-card__title">
-                <a className="small-film-card__link" href="film-page.html">Macbeth</a>
-              </h3>
-            </article>
-
-            <article className="small-film-card catalog__films-card">
-              <div className="small-film-card__image">
-                <img src="img/aviator.jpg" alt="Aviator" width="280" height="175" />
-              </div>
-              <h3 className="small-film-card__title">
-                <a className="small-film-card__link" href="film-page.html">Aviator</a>
-              </h3>
-            </article>
-          </div>
+          <FilmsList films={ props.films } />
         </section>
 
         <footer className="page-footer">
           <div className="logo">
-            <a href="main.html" className="logo__link logo__link--light">
+            <Link className="logo__link logo__link--light" to={ AppRoute.Main }>
               <span className="logo__letter logo__letter--1">W</span>
               <span className="logo__letter logo__letter--2">T</span>
               <span className="logo__letter logo__letter--3">W</span>
-            </a>
+            </Link>
           </div>
 
           <div className="copyright">

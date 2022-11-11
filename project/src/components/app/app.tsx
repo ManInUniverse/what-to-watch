@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { AppRoute, AuthorizationStatus } from '../const';
+import { AppRoute, AuthorizationStatus } from '../../const';
 
 import AddReviewPage from '../../pages/add-review-page/add-review-page';
 import FilmPage from '../../pages/film-page/film-page';
@@ -15,9 +15,6 @@ import { FilmType } from '../../types/film-type';
 import ScrollToTop from '../scroll-to-top/scroll-to-top';
 
 type AppProps = {
-  title: string;
-  genre: string;
-  releaseDate: string;
   films: FilmType[];
 }
 
@@ -28,7 +25,7 @@ function App(props: AppProps): JSX.Element {
       <Routes>
         <Route
           path={ AppRoute.Main }
-          element={ <MainPage title={ props.title } genre={ props.genre } releaseDate={ props.releaseDate } films={ props.films } /> }
+          element={ <MainPage films={ props.films } /> }
         />
         <Route
           path={ AppRoute.SignIn }
@@ -48,11 +45,11 @@ function App(props: AppProps): JSX.Element {
         />
         <Route
           path={ AppRoute.AddReview }
-          element={ <AddReviewPage /> }
+          element={ <AddReviewPage films={ props.films } /> }
         />
         <Route
           path={ AppRoute.Player }
-          element={ <PlayerPage /> }
+          element={ <PlayerPage films={ props.films } /> }
         />
         <Route path="*" element={ <NotFoundPage /> } />
       </Routes>

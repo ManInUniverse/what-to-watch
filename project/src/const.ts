@@ -12,3 +12,11 @@ export enum AuthorizationStatus {
   NonAuth = 'NON_AUTH',
   Unknown = 'UNKNOWN'
 }
+
+export enum RatingDescription {
+  Bad = 'Bad',
+  Normal = 'Normal',
+  Good = 'Good',
+  VeryGood = 'Very good',
+  Awesome = 'Awesome'
+}
