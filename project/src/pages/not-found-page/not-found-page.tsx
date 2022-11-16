@@ -1,16 +1,22 @@
+import { AppRoute } from '../../const';
+import { Link } from 'react-router-dom';
+import './not-found-page.css';
+
 function NotFoundPage(): JSX.Element {
   return (
-    <div className="page-content" style={ { 'height': '100vh' } }>
+    <div className="page-content not-found-page">
 
-      <h1 style={ { 'textAlign': 'center', 'margin': '185px 0 100px' } }>404. Page not found</h1>
+      <div className="not-found-page__container">
+        <h1 className="page-title">404. Page not found</h1>
+      </div>
 
       <footer className="page-footer">
         <div className="logo">
-          <a className="logo__link logo__link--light" href="/">
+          <Link className="logo__link logo__link--light" to={ AppRoute.Main }>
             <span className="logo__letter logo__letter--1">W</span>
             <span className="logo__letter logo__letter--2">T</span>
             <span className="logo__letter logo__letter--3">W</span>
-          </a>
+          </Link>
         </div>
 
         <div className="copyright">
