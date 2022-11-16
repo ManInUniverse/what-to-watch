@@ -8,9 +8,8 @@ type PlayerPageProps = {
 }
 
 function PlayerPage(props: PlayerPageProps): JSX.Element {
-  const params = useParams();
-  const currentFilmId: unknown = params.id;
-  const currentFilm = props.films.find((film) => film.id === Number(currentFilmId));
+  const { id } = useParams<{ id: string }>();
+  const currentFilm = props.films.find((film) => film.id === Number(id));
 
   if (!currentFilm) {
     return (

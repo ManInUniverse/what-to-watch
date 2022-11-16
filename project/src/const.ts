@@ -20,3 +20,4 @@ export enum RatingDescription {
   VeryGood = 'Very good',
   Awesome = 'Awesome'
 }
+

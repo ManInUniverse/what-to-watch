@@ -1,6 +1,7 @@
 import React from 'react';
-import FilmsList from '../../components/films-list/films-list';
 import { FilmType } from '../../types/film-type';
+
+import FilmsList from '../../components/films-list/films-list';
 
 type MainPageProps = {
   films: FilmType[];

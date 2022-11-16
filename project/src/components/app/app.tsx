@@ -1,18 +1,20 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { AppRoute, AuthorizationStatus } from '../../const';
+import { FilmType } from '../../types/film-type';
 
 import AddReviewPage from '../../pages/add-review-page/add-review-page';
-import FilmPage from '../../pages/film-page/film-page';
 import MainPage from '../../pages/main-page/main-page';
 import MyListPage from '../../pages/my-list-page/my-list-page';
 import NotFoundPage from '../../pages/not-found-page/not-found-page';
 import PlayerPage from '../../pages/player-page/player-page';
 import SignInPage from '../../pages/sign-in-page/sign-in-page';
+import FilmPage from '../../pages/film-page/film-page';
+import FilmPageOverview from '../../pages/film-page-overview/film-page-overview';
+import FilmPageDetails from '../../pages/film-page-details/film-page-details';
+import FilmPageReviews from '../../pages/film-page-reviews/film-page-reviews';
 
-import PrivateRoute from '../../components/private-route/private-route';
-
-import { FilmType } from '../../types/film-type';
 import ScrollToTop from '../scroll-to-top/scroll-to-top';
+import PrivateRoute from '../../components/private-route/private-route';
 
 type AppProps = {
   films: FilmType[];
@@ -22,35 +24,43 @@ function App(props: AppProps): JSX.Element {
   return (
     <BrowserRouter>
       <ScrollToTop />
+
       <Routes>
         <Route
           path={ AppRoute.Main }
           element={ <MainPage films={ props.films } /> }
         />
+
         <Route
           path={ AppRoute.SignIn }
           element={ <SignInPage /> }
         />
+
         <Route
           path={ AppRoute.MyList }
           element={
-            <PrivateRoute authorizationStatus={ AuthorizationStatus.NonAuth }>
-              <MyListPage />
+            <PrivateRoute authorizationStatus={ AuthorizationStatus.Auth }>
+              <MyListPage films={ props.films } />
             </PrivateRoute>
           }
         />
-        <Route
-          path={ AppRoute.Film }
-          element={ <FilmPage films={ props.films } /> }
-        />
+
+        <Route path={ AppRoute.Film } element={ <FilmPage films={ props.films } /> }>
+          <Route index element={ <FilmPageOverview films={ props.films } /> } />
+          <Route path={ `${ AppRoute.Film }/details` } element={ <FilmPageDetails films={ props.films } /> } />
+          <Route path={ `${ AppRoute.Film }/reviews` } element={ <FilmPageReviews /> } />
+        </Route>
+
         <Route
           path={ AppRoute.AddReview }
           element={ <AddReviewPage films={ props.films } /> }
         />
+
         <Route
           path={ AppRoute.Player }
           element={ <PlayerPage films={ props.films } /> }
         />
+
         <Route path="*" element={ <NotFoundPage /> } />
       </Routes>
     </BrowserRouter>

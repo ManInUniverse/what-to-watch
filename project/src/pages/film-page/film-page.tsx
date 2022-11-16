@@ -1,38 +1,19 @@
 import React from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, Outlet, useParams } from 'react-router-dom';
 import { AppRoute } from '../../const';
 import { FilmType } from '../../types/film-type';
-import NotFoundPage from '../not-found-page/not-found-page';
 
-import { RatingDescription } from '../../const';
+import NotFoundPage from '../not-found-page/not-found-page';
 import FilmsList from '../../components/films-list/films-list';
+import FilmNavItem from '../../components/film-nav-item/film-nav-item';
 
 type FilmPageProps = {
   films: FilmType[];
 }
 
 function FilmPage(props: FilmPageProps): JSX.Element {
-  const params = useParams();
-  const currentFilmId: unknown = params.id;
-  const currentFilm = props.films.find((film) => film.id === Number(currentFilmId));
-
-  const rateFilm = (rating: FilmType['rating']) => {
-    if (rating < 3) {
-      return RatingDescription.Bad;
-    }
-    if (rating >= 3 && rating < 5) {
-      return RatingDescription.Normal;
-    }
-    if (rating >= 5 && rating < 8) {
-      return RatingDescription.Good;
-    }
-    if (rating >= 8 && rating < 10) {
-      return RatingDescription.VeryGood;
-    }
-    if (rating >= 10) {
-      return RatingDescription.Awesome;
-    }
-  };
+  const { id } = useParams<{ id: string }>();
+  const currentFilm = props.films.find((film) => film.id === Number(id));
 
   if (!currentFilm) {
     return (
@@ -108,35 +89,14 @@ function FilmPage(props: FilmPageProps): JSX.Element {
             <div className="film-card__desc">
               <nav className="film-nav film-card__nav">
                 <ul className="film-nav__list">
-                  <li className="film-nav__item film-nav__item--active">
-                    <a href="/" className="film-nav__link">Overview</a>
-                  </li>
-                  <li className="film-nav__item">
-                    <a href="/" className="film-nav__link">Details</a>
-                  </li>
-                  <li className="film-nav__item">
-                    <a href="/" className="film-nav__link">Reviews</a>
-                  </li>
+                  <FilmNavItem to={ `/films/${ currentFilm.id }` }>Overview</FilmNavItem>
+                  <FilmNavItem to={ `/films/${ currentFilm.id }/details` }>Details</FilmNavItem>
+                  <FilmNavItem to={ `/films/${ currentFilm.id }/reviews` }>Reviews</FilmNavItem>
                 </ul>
               </nav>
 
-              <div className="film-rating">
-                <div className="film-rating__score">{ currentFilm.rating.toFixed(1) }</div>
-                <p className="film-rating__meta">
-                  <span className="film-rating__level">
-                    { rateFilm(currentFilm.rating) }
-                  </span>
-                  <span className="film-rating__count">{ `${ currentFilm.scoresCount } ratings` }</span>
-                </p>
-              </div>
+              <Outlet />
 
-              <div className="film-card__text">
-                <p>{ currentFilm.description }</p>
-
-                <p className="film-card__director"><strong>{ `Director: ${ currentFilm.director }` }</strong></p>
-
-                <p className="film-card__starring"><strong>{ `Starring: ${ currentFilm.starring.join(', ') } and other` }</strong></p>
-              </div>
             </div>
           </div>
         </div>
@@ -147,6 +107,7 @@ function FilmPage(props: FilmPageProps): JSX.Element {
           <h2 className="catalog__title">More like this</h2>
 
           <FilmsList films={ props.films } />
+
         </section>
 
         <footer className="page-footer">
