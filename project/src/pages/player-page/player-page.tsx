@@ -2,6 +2,7 @@ import { FilmType } from '../../types/film-type';
 import { useParams } from 'react-router-dom';
 
 import NotFoundPage from '../not-found-page/not-found-page';
+import VideoPlayer from '../../components/video-player/video-player';
 
 type PlayerPageProps = {
   films: FilmType[];
@@ -19,7 +20,8 @@ function PlayerPage(props: PlayerPageProps): JSX.Element {
 
   return (
     <div className="player">
-      <video src={ currentFilm.videoLink } className="player__video" poster="img/player-poster.jpg"></video>
+
+      <VideoPlayer film={ currentFilm } />
 
       <button type="button" className="player__exit">Exit</button>
 

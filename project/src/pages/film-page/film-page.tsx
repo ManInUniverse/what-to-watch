@@ -95,7 +95,7 @@ function FilmPage(props: FilmPageProps): JSX.Element {
                 </ul>
               </nav>
 
-              <Outlet />
+              <Outlet context={ currentFilm } />
 
             </div>
           </div>

@@ -46,8 +46,8 @@ function App(props: AppProps): JSX.Element {
         />
 
         <Route path={ AppRoute.Film } element={ <FilmPage films={ props.films } /> }>
-          <Route index element={ <FilmPageOverview films={ props.films } /> } />
-          <Route path={ `${ AppRoute.Film }/details` } element={ <FilmPageDetails films={ props.films } /> } />
+          <Route index element={ <FilmPageOverview /> } />
+          <Route path={ `${ AppRoute.Film }/details` } element={ <FilmPageDetails /> } />
           <Route path={ `${ AppRoute.Film }/reviews` } element={ <FilmPageReviews /> } />
         </Route>
 
