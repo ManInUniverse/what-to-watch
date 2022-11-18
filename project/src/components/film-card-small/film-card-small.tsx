@@ -3,12 +3,12 @@ import { FilmType } from '../../types/film-type';
 
 type FilmCardSmallProps = {
   film: FilmType;
-  onFilmCardMouseEnter: () => void;
+  onFilmCardPointerEnter: () => void;
 }
 
 function FilmCardSmall(props: FilmCardSmallProps): JSX.Element {
   return (
-    <article onMouseEnter={ props.onFilmCardMouseEnter } className="small-film-card catalog__films-card">
+    <article onPointerEnter={ props.onFilmCardPointerEnter } className="small-film-card catalog__films-card">
       <div className="small-film-card__image">
         <img src={ props.film.previewImage } alt={ props.film.name } width="280" height="175" />
       </div>

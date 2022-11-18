@@ -18,7 +18,7 @@ function FilmsList(props: FilmsListProps): JSX.Element {
           <FilmCardSmall
             film={ film }
             key={ film.id }
-            onFilmCardMouseEnter={ () => setActiveFilmCard( film.id ) }
+            onFilmCardPointerEnter={ () => setActiveFilmCard( film.id ) }
           />
         ))
       }
