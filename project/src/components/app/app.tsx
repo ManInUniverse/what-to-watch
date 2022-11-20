@@ -13,7 +13,7 @@ import FilmPageOverview from '../../pages/film-page-overview/film-page-overview'
 import FilmPageDetails from '../../pages/film-page-details/film-page-details';
 import FilmPageReviews from '../../pages/film-page-reviews/film-page-reviews';
 
-import ScrollToTop from '../scroll-to-top/scroll-to-top';
+import ScrollReseter from '../scroll-reseter/scroll-reseter';
 import PrivateRoute from '../../components/private-route/private-route';
 
 type AppProps = {
@@ -23,7 +23,7 @@ type AppProps = {
 function App(props: AppProps): JSX.Element {
   return (
     <BrowserRouter>
-      <ScrollToTop />
+      <ScrollReseter />
 
       <Routes>
         <Route
