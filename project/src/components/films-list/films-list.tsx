@@ -9,7 +9,7 @@ type FilmsListProps = PropsWithChildren<{
 
 function FilmsList(props: FilmsListProps): JSX.Element {
 
-  const [, setActiveFilmCard] = useState(0);
+  const [activeFilmCard, setActiveFilmCard] = useState(0);
 
   return (
     <div className="catalog__films-list">
@@ -19,6 +19,8 @@ function FilmsList(props: FilmsListProps): JSX.Element {
             film={ film }
             key={ film.id }
             onFilmCardPointerEnter={ () => setActiveFilmCard( film.id ) }
+            onFilmCardPointerLeave={ () => setActiveFilmCard( 0 ) }
+            isVideoPlaying={ activeFilmCard === film.id }
           />
         ))
       }
