@@ -25,7 +25,7 @@ function PlayerPage(props: PlayerPageProps): JSX.Element {
   return (
     <div className="player">
 
-      <VideoPlayer film={ currentFilm } isPlaying isMuted={ false }/>
+      <VideoPlayer film={ currentFilm } isPlaying={ false } isMuted={ false }/>
 
       <button onClick={ onExitButtonClick } type="button" className="player__exit">Exit</button>
 

@@ -16,18 +16,18 @@ function FilmCardSmall(props: FilmCardSmallProps): JSX.Element {
       onPointerEnter={ props.onFilmCardPointerEnter }
       onPointerLeave={ props.onFilmCardPointerLeave }
     >
-      <div className="small-film-card__image">
+      <Link className="small-film-card__link" to={ `/films/${ props.film.id }` }>
+        <div className="small-film-card__image">
 
-        {
-          props.isVideoPlaying
-            ? <VideoPlayer film={ props.film } isPlaying isMuted />
-            : <img src={ props.film.previewImage } alt={ props.film.name } width="280" height="175" />
-        }
+          <VideoPlayer
+            film={ props.film }
+            isPlaying={ props.isVideoPlaying }
+            isMuted
+          />
 
-      </div>
-      <h3 className="small-film-card__title">
-        <Link className="small-film-card__link" to={ `/films/${ props.film.id }` }>{ props.film.name }</Link>
-      </h3>
+        </div>
+        <h3 className="small-film-card__title">{ props.film.name }</h3>
+      </Link>
     </article>
   );
 }

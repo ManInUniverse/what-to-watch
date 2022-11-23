@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { FilmType } from '../../types/film-type';
 
 type VideoPlayerProps = {
@@ -8,34 +8,33 @@ type VideoPlayerProps = {
 }
 
 function VideoPlayer(props: VideoPlayerProps) {
-  const [, setIsLoading] = useState(true);
-
   const videoRef = useRef<HTMLVideoElement | null>(null);
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const playVideo = () => {
+    if(videoRef.current) {
+      videoRef.current.play();
+    }
+  };
+
+  const stopVideo = () => {
+    if (videoRef.current) {
+      videoRef.current.load();
+    }
+  };
 
   useEffect(() => {
-    let isVideoPlayerMounted = true;
-
-    if (videoRef.current === null) {
-      return;
-    }
-
-    videoRef.current.addEventListener('loadeddata', () => {
-      if (isVideoPlayerMounted) {
-        setIsLoading(false);
-      }
-    });
-
     if (props.isPlaying) {
-      videoRef.current.play();
-      return;
+      timeoutRef.current = setTimeout(playVideo, 1000);
+    } else {
+      stopVideo();
     }
-
-    videoRef.current.pause();
 
     return () => {
-      isVideoPlayerMounted = false;
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
     };
-
   }, [props.isPlaying]);
 
   return (
