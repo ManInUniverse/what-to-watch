@@ -1,7 +1,8 @@
 import { FilmType } from '../../types/film-type';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 
 import NotFoundPage from '../not-found-page/not-found-page';
+import VideoPlayer from '../../components/video-player/video-player';
 
 type PlayerPageProps = {
   films: FilmType[];
@@ -11,17 +12,22 @@ function PlayerPage(props: PlayerPageProps): JSX.Element {
   const { id } = useParams<{ id: string }>();
   const currentFilm = props.films.find((film) => film.id === Number(id));
 
+  const navigate = useNavigate();
+
   if (!currentFilm) {
     return (
       <NotFoundPage />
     );
   }
 
+  const onExitButtonClick = () => navigate(`/films/${ currentFilm.id }`);
+
   return (
     <div className="player">
-      <video src={ currentFilm.videoLink } className="player__video" poster="img/player-poster.jpg"></video>
 
-      <button type="button" className="player__exit">Exit</button>
+      <VideoPlayer film={ currentFilm } isPlaying={ false } isMuted={ false }/>
+
+      <button onClick={ onExitButtonClick } type="button" className="player__exit">Exit</button>
 
       <div className="player__controls">
         <div className="player__controls-row">

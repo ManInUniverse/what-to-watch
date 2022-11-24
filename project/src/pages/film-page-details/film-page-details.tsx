@@ -1,12 +1,6 @@
 import React from 'react';
+import { useOutletContext } from 'react-router-dom';
 import { FilmType } from '../../types/film-type';
-import { useParams } from 'react-router-dom';
-
-import NotFoundPage from '../not-found-page/not-found-page';
-
-type FilmPageDetailsProps = {
-  films: FilmType[];
-}
 
 const getTimeFromMinutes = (runTime: FilmType['runTime']) => {
   const hours = Math.trunc(runTime / 60);
@@ -14,27 +8,22 @@ const getTimeFromMinutes = (runTime: FilmType['runTime']) => {
   return `${ hours }h ${ minutes }m`;
 };
 
-function FilmPageDetails(props: FilmPageDetailsProps): JSX.Element {
-  const { id } = useParams<{ id: string }>();
-  const currentFilm = props.films.find((film) => film.id === Number(id));
-
-  if (!currentFilm) {
-    return <NotFoundPage />;
-  }
+function FilmPageDetails(): JSX.Element {
+  const film = useOutletContext<FilmType>();
 
   return (
     <div className="film-card__text film-card__row">
       <div className="film-card__text-col">
         <p className="film-card__details-item">
           <strong className="film-card__details-name">Director</strong>
-          <span className="film-card__details-value">{ currentFilm.director }</span>
+          <span className="film-card__details-value">{ film.director }</span>
         </p>
         <p className="film-card__details-item">
           <strong className="film-card__details-name">Starring</strong>
           <span className="film-card__details-value">
 
             {
-              currentFilm.starring.map((actor, index, array) => {
+              film.starring.map((actor, index, array) => {
                 if (index === array.length - 1) {
                   return actor;
                 }
@@ -53,15 +42,15 @@ function FilmPageDetails(props: FilmPageDetailsProps): JSX.Element {
       <div className="film-card__text-col">
         <p className="film-card__details-item">
           <strong className="film-card__details-name">Run Time</strong>
-          <span className="film-card__details-value">{ getTimeFromMinutes(currentFilm.runTime) }</span>
+          <span className="film-card__details-value">{ getTimeFromMinutes(film.runTime) }</span>
         </p>
         <p className="film-card__details-item">
           <strong className="film-card__details-name">Genre</strong>
-          <span className="film-card__details-value">{ currentFilm.genre }</span>
+          <span className="film-card__details-value">{ film.genre }</span>
         </p>
         <p className="film-card__details-item">
           <strong className="film-card__details-name">Released</strong>
-          <span className="film-card__details-value">{ currentFilm.released }</span>
+          <span className="film-card__details-value">{ film.released }</span>
         </p>
       </div>
     </div>

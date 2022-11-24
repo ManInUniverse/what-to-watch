@@ -1,13 +1,7 @@
 import React from 'react';
+import { useOutletContext } from 'react-router-dom';
 import { FilmType } from '../../types/film-type';
 import { RatingDescription } from '../../const';
-import { useParams } from 'react-router-dom';
-
-import NotFoundPage from '../../pages/not-found-page/not-found-page';
-
-type FilmPageOverviewProps = {
-  films: FilmType[];
-}
 
 const rateFilm = (rating: FilmType['rating']) => {
   if (rating < 3) {
@@ -27,30 +21,25 @@ const rateFilm = (rating: FilmType['rating']) => {
   }
 };
 
-function FilmPageOverview(props: FilmPageOverviewProps): JSX.Element {
-  const { id } = useParams<{ id: string }>();
-  const currentFilm = props.films.find((film) => film.id === Number(id));
-
-  if (!currentFilm) {
-    return <NotFoundPage />;
-  }
+function FilmPageOverview(): JSX.Element {
+  const film = useOutletContext<FilmType>();
 
   return (
     <React.Fragment>
       <div className="film-rating">
-        <div className="film-rating__score">{ currentFilm.rating.toFixed(1) }</div>
+        <div className="film-rating__score">{ film.rating.toFixed(1) }</div>
         <p className="film-rating__meta">
-          <span className="film-rating__level">{ rateFilm(currentFilm.rating) }</span>
-          <span className="film-rating__count">{ `${ currentFilm.scoresCount } ratings` }</span>
+          <span className="film-rating__level">{ rateFilm(film.rating) }</span>
+          <span className="film-rating__count">{ `${ film.scoresCount } ratings` }</span>
         </p>
       </div>
 
       <div className="film-card__text">
-        <p>{ currentFilm.description }</p>
+        <p>{ film.description }</p>
 
-        <p className="film-card__director"><strong>{ `Director: ${ currentFilm.director }` }</strong></p>
+        <p className="film-card__director"><strong>{ `Director: ${ film.director }` }</strong></p>
 
-        <p className="film-card__starring"><strong>{ `Starring: ${ currentFilm.starring.join(', ') } and other` }</strong></p>
+        <p className="film-card__starring"><strong>{ `Starring: ${ film.starring.join(', ') } and other` }</strong></p>
       </div>
     </React.Fragment>
   );
