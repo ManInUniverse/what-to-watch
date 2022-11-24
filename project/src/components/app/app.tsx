@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { AppRoute, AuthorizationStatus } from '../../const';
 import { FilmType } from '../../types/film-type';
+import { ReviewType } from '../../types/review-type';
 
 import AddReviewPage from '../../pages/add-review-page/add-review-page';
 import MainPage from '../../pages/main-page/main-page';
@@ -18,6 +19,7 @@ import PrivateRoute from '../../components/private-route/private-route';
 
 type AppProps = {
   films: FilmType[];
+  reviews: ReviewType[];
 }
 
 function App(props: AppProps): JSX.Element {
@@ -48,7 +50,7 @@ function App(props: AppProps): JSX.Element {
         <Route path={ AppRoute.Film } element={ <FilmPage films={ props.films } /> }>
           <Route index element={ <FilmPageOverview /> } />
           <Route path={ `${ AppRoute.Film }/details` } element={ <FilmPageDetails /> } />
-          <Route path={ `${ AppRoute.Film }/reviews` } element={ <FilmPageReviews /> } />
+          <Route path={ `${ AppRoute.Film }/reviews` } element={ <FilmPageReviews reviews={ props.reviews } /> } />
         </Route>
 
         <Route

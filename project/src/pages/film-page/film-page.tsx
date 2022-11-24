@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, Outlet, useParams, useNavigate } from 'react-router-dom';
+import { Link, Outlet, useParams } from 'react-router-dom';
 import { AppRoute } from '../../const';
 import { FilmType } from '../../types/film-type';
 
@@ -15,15 +15,11 @@ function FilmPage(props: FilmPageProps): JSX.Element {
   const { id } = useParams<{ id: string }>();
   const currentFilm = props.films.find((film) => film.id === Number(id));
 
-  const navigate = useNavigate();
-
   if (!currentFilm) {
     return (
       <NotFoundPage />
     );
   }
-
-  const onPlayButtonClick = () => navigate(`/player/${ currentFilm.id }`);
 
   return (
     <React.Fragment>
@@ -65,12 +61,12 @@ function FilmPage(props: FilmPageProps): JSX.Element {
               </p>
 
               <div className="film-card__buttons">
-                <button onClick={ onPlayButtonClick } className="btn btn--play film-card__button" type="button">
+                <Link className="btn btn--play film-card__button" to={ `/player/${ currentFilm.id }` }>
                   <svg viewBox="0 0 19 19" width="19" height="19">
                     <use xlinkHref="#play-s"></use>
                   </svg>
                   <span>Play</span>
-                </button>
+                </Link>
                 <button className="btn btn--list film-card__button" type="button">
                   <svg viewBox="0 0 19 20" width="19" height="20">
                     <use xlinkHref="#add"></use>

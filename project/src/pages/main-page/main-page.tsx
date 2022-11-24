@@ -1,8 +1,8 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { FilmType } from '../../types/film-type';
 
 import FilmsList from '../../components/films-list/films-list';
-import { useNavigate } from 'react-router-dom';
 
 type MainPageProps = {
   films: FilmType[];
@@ -10,9 +10,6 @@ type MainPageProps = {
 
 function MainPage(props: MainPageProps): JSX.Element {
   const promoFilm = props.films[0];
-
-  const navigate = useNavigate();
-  const onPlayButtonClick = () => navigate(`/player/${ promoFilm.id }`);
 
   return (
     <React.Fragment>
@@ -58,12 +55,12 @@ function MainPage(props: MainPageProps): JSX.Element {
               </p>
 
               <div className="film-card__buttons">
-                <button onClick={ onPlayButtonClick } className="btn btn--play film-card__button" type="button">
+                <Link className="btn btn--play film-card__button" to={ `/player/${ promoFilm.id }` }>
                   <svg viewBox="0 0 19 19" width="19" height="19">
                     <use xlinkHref="#play-s"></use>
                   </svg>
                   <span>Play</span>
-                </button>
+                </Link>
                 <button className="btn btn--list film-card__button" type="button">
                   <svg viewBox="0 0 19 20" width="19" height="20">
                     <use xlinkHref="#add"></use>
