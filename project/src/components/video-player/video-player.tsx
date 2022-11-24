@@ -9,30 +9,27 @@ type VideoPlayerProps = {
 
 function VideoPlayer(props: VideoPlayerProps) {
   const videoRef = useRef<HTMLVideoElement | null>(null);
-  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const playVideo = () => {
-    if(videoRef.current) {
-      videoRef.current.play();
-    }
+    videoRef.current?.play();
   };
 
   const stopVideo = () => {
-    if (videoRef.current) {
-      videoRef.current.load();
-    }
+    videoRef.current?.load();
   };
 
   useEffect(() => {
+    let playTimeout: ReturnType<typeof setTimeout> | null = null;
+
     if (props.isPlaying) {
-      timeoutRef.current = setTimeout(playVideo, 1000);
+      playTimeout = setTimeout(playVideo, 1000);
     } else {
       stopVideo();
     }
 
     return () => {
-      if (timeoutRef.current) {
-        clearTimeout(timeoutRef.current);
+      if (playTimeout) {
+        clearTimeout(playTimeout);
       }
     };
   }, [props.isPlaying]);
