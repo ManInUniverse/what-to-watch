@@ -11,6 +11,8 @@ type FilmPageProps = {
   films: FilmType[];
 }
 
+const SIMILAR_FILMS_COUNT = 4;
+
 function FilmPage(props: FilmPageProps): JSX.Element {
   const { id } = useParams<{ id: string }>();
   const currentFilm = props.films.find((film) => film.id === Number(id));
@@ -106,7 +108,7 @@ function FilmPage(props: FilmPageProps): JSX.Element {
         <section className="catalog catalog--like-this">
           <h2 className="catalog__title">More like this</h2>
 
-          <FilmsList films={ props.films } />
+          <FilmsList films={ props.films.slice(0, SIMILAR_FILMS_COUNT) } />
 
         </section>
 

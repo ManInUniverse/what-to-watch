@@ -12,7 +12,7 @@ function FilmNavItem(props: FilmNavItemProps): JSX.Element {
   const match = location.pathname === props.to;
 
   return (
-    <li className={ `film-nav__item${ match ? ' film-nav__item--active' : '' }` }>
+    <li className={ `film-nav__item ${ match ? 'film-nav__item--active' : '' }` }>
       <Link className="film-nav__link" to={ props.to }>{ props.children }</Link>
     </li>
   );
