@@ -184,6 +184,29 @@ const films: FilmType[] = [
     genre: 'Thriller',
     released: 2010,
     isFavorite: false
+  },
+  {
+    id: 9,
+    name:'Macbeth',
+    posterImage: 'img/macbeth-poster.jpg',
+    previewImage: 'img/macbeth.jpg',
+    backgroundImage: 'img/macbeth-bg.jpg',
+    backgroundColor: '#D6D9D9',
+    videoLink: 'https://artem-malutin.ru/video/macbeth.mp4',
+    previewVideoLink: 'https://artem-malutin.ru/video/macbeth.mp4',
+    description: 'Macbeth, the Thane of Glamis, receives a prophecy from a trio of witches that one day he will become King of Scotland. Consumed by ambition and spurred to action by his wife, Macbeth murders his king and takes the throne for himself.',
+    rating: 6.6,
+    scoresCount: 57,
+    director: 'Justin Kurzel',
+    starring: [
+      'Michael Fassbender',
+      'Marion Cotillard',
+      'Jack Madigan'
+    ],
+    runTime: 113,
+    genre: 'War',
+    released: 2015,
+    isFavorite: false
   }
 ];
 

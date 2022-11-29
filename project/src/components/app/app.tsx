@@ -1,6 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { AppRoute, AuthorizationStatus } from '../../const';
-import { FilmType } from '../../types/film-type';
 import { ReviewType } from '../../types/review-type';
 
 import AddReviewPage from '../../pages/add-review-page/add-review-page';
@@ -17,12 +16,20 @@ import FilmPageReviews from '../../pages/film-page-reviews/film-page-reviews';
 import ScrollReseter from '../scroll-reseter/scroll-reseter';
 import PrivateRoute from '../../components/private-route/private-route';
 
+import { useAppDispatch } from '../../hooks/useAppDispatch';
+import { useAppSelector } from '../../hooks/useAppSelector';
+import { loadFilms } from '../../store/actions';
+
 type AppProps = {
-  films: FilmType[];
   reviews: ReviewType[];
 }
 
 function App(props: AppProps): JSX.Element {
+  const dispatch = useAppDispatch();
+  dispatch(loadFilms());
+
+  const films = useAppSelector((state) => state.films);
+
   return (
     <BrowserRouter>
       <ScrollReseter />
@@ -30,7 +37,7 @@ function App(props: AppProps): JSX.Element {
       <Routes>
         <Route
           path={ AppRoute.Main }
-          element={ <MainPage films={ props.films } /> }
+          element={ <MainPage films={ films } /> }
         />
 
         <Route
@@ -42,12 +49,12 @@ function App(props: AppProps): JSX.Element {
           path={ AppRoute.MyList }
           element={
             <PrivateRoute authorizationStatus={ AuthorizationStatus.Auth }>
-              <MyListPage films={ props.films } />
+              <MyListPage films={ films } />
             </PrivateRoute>
           }
         />
 
-        <Route path={ AppRoute.Film } element={ <FilmPage films={ props.films } /> }>
+        <Route path={ AppRoute.Film } element={ <FilmPage films={ films } /> }>
           <Route index element={ <FilmPageOverview /> } />
           <Route path={ `${ AppRoute.Film }/details` } element={ <FilmPageDetails /> } />
           <Route path={ `${ AppRoute.Film }/reviews` } element={ <FilmPageReviews reviews={ props.reviews } /> } />
@@ -55,12 +62,12 @@ function App(props: AppProps): JSX.Element {
 
         <Route
           path={ AppRoute.AddReview }
-          element={ <AddReviewPage films={ props.films } /> }
+          element={ <AddReviewPage films={ films } /> }
         />
 
         <Route
           path={ AppRoute.Player }
-          element={ <PlayerPage films={ props.films } /> }
+          element={ <PlayerPage films={ films } /> }
         />
 
         <Route path="*" element={ <NotFoundPage /> } />

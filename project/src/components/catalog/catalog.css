@@ -1,0 +1,4 @@
+.catalog__genres-item--active .catalog__genres-link {
+  pointer-events: none;
+  cursor: default;
+}
