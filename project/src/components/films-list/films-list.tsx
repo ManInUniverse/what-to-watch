@@ -8,7 +8,6 @@ type FilmsListProps = PropsWithChildren<{
 }>;
 
 function FilmsList(props: FilmsListProps): JSX.Element {
-
   const [activeFilmCard, setActiveFilmCard] = useState<Film['id'] | null>(null);
 
   return (

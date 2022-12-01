@@ -1,13 +1,15 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { Films } from '../types/film';
-import { loadFilms, setFilmsDataLoadingStatus } from './actions';
+import { loadFilms, setError, setFilmsDataLoadingStatus } from './actions';
 
 const initialState: {
   isFilmsDataLoading: boolean;
   films: Films;
+  error: string | null;
 } = {
   isFilmsDataLoading: false,
-  films: []
+  films: [],
+  error: null
 };
 
 const reducer = createReducer(initialState, (builder) => {
@@ -17,6 +19,9 @@ const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(setFilmsDataLoadingStatus, (state, action) => {
       state.isFilmsDataLoading = action.payload;
+    })
+    .addCase(setError, (state, action) => {
+      state.error = action.payload;
     });
 });
 
