@@ -37,7 +37,7 @@ function VideoPlayer(props: VideoPlayerProps) {
   return (
     <video
       className="player__video"
-      src={ props.film.videoLink }
+      src={ props.film.previewVideoLink }
       poster={ props.film.previewImage }
       ref={ videoRef }
       muted={ props.isMuted }

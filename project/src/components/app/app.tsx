@@ -1,11 +1,13 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { AppRoute, AuthorizationStatus } from '../../const';
 import { ReviewType } from '../../types/review-type';
+import { useAppSelector } from '../../hooks/useAppSelector';
 
 import AddReviewPage from '../../pages/add-review-page/add-review-page';
 import MainPage from '../../pages/main-page/main-page';
 import MyListPage from '../../pages/my-list-page/my-list-page';
 import NotFoundPage from '../../pages/not-found-page/not-found-page';
+import LoadingPage from '../../pages/loading-page/loading-page';
 import PlayerPage from '../../pages/player-page/player-page';
 import SignInPage from '../../pages/sign-in-page/sign-in-page';
 import FilmPage from '../../pages/film-page/film-page';
@@ -16,19 +18,17 @@ import FilmPageReviews from '../../pages/film-page-reviews/film-page-reviews';
 import ScrollReseter from '../scroll-reseter/scroll-reseter';
 import PrivateRoute from '../../components/private-route/private-route';
 
-import { useAppDispatch } from '../../hooks/useAppDispatch';
-import { useAppSelector } from '../../hooks/useAppSelector';
-import { loadFilms } from '../../store/actions';
-
 type AppProps = {
   reviews: ReviewType[];
 }
 
 function App(props: AppProps): JSX.Element {
-  const dispatch = useAppDispatch();
-  dispatch(loadFilms());
-
+  const isFilmsDataLoading = useAppSelector((state) => state.isFilmsDataLoading);
   const films = useAppSelector((state) => state.films);
+
+  if (isFilmsDataLoading) {
+    return <LoadingPage />;
+  }
 
   return (
     <BrowserRouter>
