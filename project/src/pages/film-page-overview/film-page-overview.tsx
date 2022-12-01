@@ -1,9 +1,9 @@
 import React from 'react';
 import { useOutletContext } from 'react-router-dom';
-import { FilmType } from '../../types/film-type';
+import { Film } from '../../types/film';
 import { RatingDescription } from '../../const';
 
-const rateFilm = (rating: FilmType['rating']) => {
+const rateFilm = (rating: Film['rating']) => {
   if (rating < 3) {
     return RatingDescription.Bad;
   }
@@ -22,7 +22,7 @@ const rateFilm = (rating: FilmType['rating']) => {
 };
 
 function FilmPageOverview(): JSX.Element {
-  const film = useOutletContext<FilmType>();
+  const film = useOutletContext<Film>();
 
   return (
     <React.Fragment>

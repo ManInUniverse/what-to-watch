@@ -1,11 +1,11 @@
-import { ReviewType } from '../../types/review-type';
+import { Review } from '../../types/review';
 import { formatDateTime } from '../../utils';
 
-type ReviewProps = {
-  review: ReviewType;
+type ReviewItemProps = {
+  review: Review;
 }
 
-function Review(props: ReviewProps): JSX.Element {
+function ReviewItem(props: ReviewItemProps): JSX.Element {
   return (
     <div className="review">
       <blockquote className="review__quote">
@@ -24,4 +24,4 @@ function Review(props: ReviewProps): JSX.Element {
   );
 }
 
-export default Review;
+export default ReviewItem;

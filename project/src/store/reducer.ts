@@ -1,10 +1,10 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { FilmType } from '../types/film-type';
+import { Films } from '../types/film';
 import { loadFilms, setFilmsDataLoadingStatus } from './actions';
 
 const initialState: {
   isFilmsDataLoading: boolean;
-  films: FilmType[];
+  films: Films;
 } = {
   isFilmsDataLoading: false,
   films: []

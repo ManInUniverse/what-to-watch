@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { AppRoute, AuthorizationStatus } from '../../const';
-import { ReviewType } from '../../types/review-type';
+import { Reviews } from '../../types/review';
 import { useAppSelector } from '../../hooks/useAppSelector';
 
 import AddReviewPage from '../../pages/add-review-page/add-review-page';
@@ -19,7 +19,7 @@ import ScrollReseter from '../scroll-reseter/scroll-reseter';
 import PrivateRoute from '../../components/private-route/private-route';
 
 type AppProps = {
-  reviews: ReviewType[];
+  reviews: Reviews;
 }
 
 function App(props: AppProps): JSX.Element {

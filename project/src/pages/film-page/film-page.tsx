@@ -1,14 +1,14 @@
 import React from 'react';
 import { Link, Outlet, useParams } from 'react-router-dom';
 import { AppRoute } from '../../const';
-import { FilmType } from '../../types/film-type';
+import { Films } from '../../types/film';
 
 import NotFoundPage from '../not-found-page/not-found-page';
 import FilmsList from '../../components/films-list/films-list';
 import FilmNavItem from '../../components/film-nav-item/film-nav-item';
 
 type FilmPageProps = {
-  films: FilmType[];
+  films: Films;
 }
 
 const SIMILAR_FILMS_COUNT = 4;

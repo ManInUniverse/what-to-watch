@@ -1,12 +1,12 @@
 import { Link, useParams } from 'react-router-dom';
 import { AppRoute } from '../../const';
-import { FilmType } from '../../types/film-type';
+import { Films } from '../../types/film';
 
 import NotFoundPage from '../not-found-page/not-found-page';
 import AddReviewForm from '../../components/add-review-form/add-review-form';
 
 type AddReviewPageProps = {
-  films: FilmType[];
+  films: Films;
 }
 
 function AddReviewPage(props: AddReviewPageProps): JSX.Element {

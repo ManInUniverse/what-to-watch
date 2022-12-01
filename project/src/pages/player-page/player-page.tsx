@@ -1,11 +1,11 @@
-import { FilmType } from '../../types/film-type';
+import { Films } from '../../types/film';
 import { useParams, useNavigate } from 'react-router-dom';
 
 import NotFoundPage from '../not-found-page/not-found-page';
 import VideoPlayer from '../../components/video-player/video-player';
 
 type PlayerPageProps = {
-  films: FilmType[];
+  films: Films;
 }
 
 function PlayerPage(props: PlayerPageProps): JSX.Element {
