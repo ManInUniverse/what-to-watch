@@ -1,15 +1,14 @@
 import { PropsWithChildren, useState } from 'react';
-import { FilmType } from '../../types/film-type';
+import { Film, Films } from '../../types/film';
 
 import FilmCardSmall from '../film-card-small/film-card-small';
 
 type FilmsListProps = PropsWithChildren<{
-  films: FilmType[];
+  films: Films;
 }>;
 
 function FilmsList(props: FilmsListProps): JSX.Element {
-
-  const [activeFilmCard, setActiveFilmCard] = useState<FilmType['id'] | null>(null);
+  const [activeFilmCard, setActiveFilmCard] = useState<Film['id'] | null>(null);
 
   return (
     <div className="catalog__films-list">

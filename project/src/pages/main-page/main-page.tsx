@@ -1,11 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { FilmType } from '../../types/film-type';
+import { Films } from '../../types/film';
 
 import Catalog from '../../components/catalog/catalog';
 
 type MainPageProps = {
-  films: FilmType[];
+  films: Films;
 }
 
 function MainPage(props: MainPageProps): JSX.Element {

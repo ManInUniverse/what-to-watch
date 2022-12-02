@@ -1,15 +1,15 @@
 import React from 'react';
 import { useOutletContext } from 'react-router-dom';
-import { FilmType } from '../../types/film-type';
+import { Film } from '../../types/film';
 
-const getTimeFromMinutes = (runTime: FilmType['runTime']) => {
+const getTimeFromMinutes = (runTime: Film['runTime']) => {
   const hours = Math.trunc(runTime / 60);
   const minutes = runTime % 60;
   return `${ hours }h ${ minutes }m`;
 };
 
 function FilmPageDetails(): JSX.Element {
-  const film = useOutletContext<FilmType>();
+  const film = useOutletContext<Film>();
 
   return (
     <div className="film-card__text film-card__row">

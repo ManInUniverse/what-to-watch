@@ -1,9 +1,9 @@
 import { Link } from 'react-router-dom';
-import { FilmType } from '../../types/film-type';
+import { Film } from '../../types/film';
 import VideoPlayer from '../video-player/video-player';
 
 type FilmCardSmallProps = {
-  film: FilmType;
+  film: Film;
   isVideoPlaying: boolean;
   onFilmCardPointerEnter: () => void;
   onFilmCardPointerLeave: () => void;

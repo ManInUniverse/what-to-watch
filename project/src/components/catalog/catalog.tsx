@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { FilmType } from '../../types/film-type';
+import { Film, Films } from '../../types/film';
 
 import FilmsList from '../films-list/films-list';
 import ShowMoreButton from '../show-more-button/show-more-button';
@@ -7,20 +7,20 @@ import ShowMoreButton from '../show-more-button/show-more-button';
 import './catalog.css';
 
 type CatalogProps = {
-  films: FilmType[];
+  films: Films;
 }
 
 const FILMS_COUNT_PER_STEP = 8;
 const DEFAULT_GENRE = 'All genres';
 
-const getGenresList = (films: FilmType[]) => {
+const getGenresList = (films: Films) => {
   const genresList = new Set([DEFAULT_GENRE]);
   films.forEach((film) => genresList.add(film.genre));
 
   return Array.from(genresList);
 };
 
-const getFilmsByGenre = (films: FilmType[], genre: FilmType['genre']) => {
+const getFilmsByGenre = (films: Films, genre: Film['genre']) => {
   if (genre === DEFAULT_GENRE) {
     return films;
   }

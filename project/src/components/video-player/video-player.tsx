@@ -1,8 +1,8 @@
 import { useEffect, useRef } from 'react';
-import { FilmType } from '../../types/film-type';
+import { Film } from '../../types/film';
 
 type VideoPlayerProps = {
-  film: FilmType;
+  film: Film;
   isPlaying: boolean;
   isMuted: boolean;
 }
@@ -37,7 +37,7 @@ function VideoPlayer(props: VideoPlayerProps) {
   return (
     <video
       className="player__video"
-      src={ props.film.videoLink }
+      src={ props.film.previewVideoLink }
       poster={ props.film.previewImage }
       ref={ videoRef }
       muted={ props.isMuted }
