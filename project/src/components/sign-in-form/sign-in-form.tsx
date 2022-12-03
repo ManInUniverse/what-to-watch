@@ -5,7 +5,6 @@ import { loginAction } from '../../store/api-actions';
 function SignInForm(): JSX.Element {
   const emailInputRef = useRef<HTMLInputElement | null>(null);
   const passwordInputRef = useRef<HTMLInputElement | null>(null);
-
   const dispatch = useAppDispatch();
 
   const onFormSubmit = (evt: FormEvent<HTMLFormElement>) => {

@@ -1,7 +1,8 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import { AppRoute } from '../../const';
 import { Reviews } from '../../types/review';
 import { useAppSelector } from '../../hooks/useAppSelector';
+import { browserHistory } from '../../browser-history';
 
 import AddReviewPage from '../../pages/add-review-page/add-review-page';
 import MainPage from '../../pages/main-page/main-page';
@@ -16,7 +17,8 @@ import FilmPageDetails from '../../pages/film-page-details/film-page-details';
 import FilmPageReviews from '../../pages/film-page-reviews/film-page-reviews';
 
 import ScrollReseter from '../scroll-reseter/scroll-reseter';
-import PrivateRoute from '../../components/private-route/private-route';
+import PrivateRoute from '../private-route/private-route';
+import HistoryRouter from '../history-router/history-router';
 
 type AppProps = {
   reviews: Reviews;
@@ -31,7 +33,7 @@ function App(props: AppProps): JSX.Element {
   }
 
   return (
-    <BrowserRouter>
+    <HistoryRouter history={ browserHistory }>
       <ScrollReseter />
 
       <Routes>
@@ -72,7 +74,7 @@ function App(props: AppProps): JSX.Element {
 
         <Route path="*" element={ <NotFoundPage /> } />
       </Routes>
-    </BrowserRouter>
+    </HistoryRouter>
   );
 }
 
