@@ -6,6 +6,7 @@ import { logoutAction } from '../../store/api-actions';
 
 function UserBlock(): JSX.Element {
   const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const userData = useAppSelector((state) => state.userData);
   const dispatch = useAppDispatch();
 
   if (authorizationStatus === AuthorizationStatus.Auth) {
@@ -13,7 +14,7 @@ function UserBlock(): JSX.Element {
       <ul className="user-block">
         <li className="user-block__item">
           <div className="user-block__avatar">
-            <img src="img/avatar.jpg" alt="User avatar" width="63" height="63" />
+            { userData && <img src={ userData.avatarUrl } alt="User avatar" width="63" height="63" /> }
           </div>
         </li>
         <li className="user-block__item">
