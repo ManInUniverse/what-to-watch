@@ -19,9 +19,7 @@ export const fetchFilmsAction = createAsyncThunk<void, undefined, AppThunkApiCon
   'data/fetchFilms',
   async (_arg, { dispatch, extra: api }) => {
     dispatch(setFilmsDataLoadingStatus(true));
-
     const response = await api.get<Films>(APIRoute.Films);
-
     dispatch(setFilmsDataLoadingStatus(false));
     dispatch(loadFilms(response.data));
   }
@@ -48,9 +46,8 @@ export const checkAuthAction = createAsyncThunk<void, undefined, AppThunkApiConf
 
 export const loginAction = createAsyncThunk<void, AuthData, AppThunkApiConfig>(
   'user/login',
-  async ({ login: email, password }, { dispatch, extra: api }) => {
+  async ({ email, password }, { dispatch, extra: api }) => {
     const response = await api.post<UserData>(APIRoute.Login, { email, password });
-
     saveToken(response.data.token);
     dispatch(setAuthorizationStatus(AuthorizationStatus.Auth));
   },

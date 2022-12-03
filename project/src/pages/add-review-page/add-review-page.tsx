@@ -61,8 +61,9 @@ function AddReviewPage(props: AddReviewPageProps): JSX.Element {
         </div>
       </div>
 
-      <AddReviewForm />
-
+      <div className="add-review">
+        <AddReviewForm />
+      </div>
     </section>
   );
 }
