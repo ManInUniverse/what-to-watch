@@ -1,10 +1,46 @@
-import { useState, ChangeEvent } from 'react';
+import { useState, ChangeEvent, FormEvent, useEffect } from 'react';
+import { useAppDispatch } from '../../hooks/useAppDispatch';
+import { useAppSelector } from '../../hooks/useAppSelector';
+import { addNewCommentAction } from '../../store/api-actions';
+import { getAppDataProcessingStatus } from '../../store/slices/app-data/selectors';
+import { Film } from '../../types/film';
 
-function AddReviewForm(): JSX.Element {
+type AddReviewFormProps = {
+  film: Film;
+}
+
+function AddReviewForm(props: AddReviewFormProps): JSX.Element {
+  const dispatch = useAppDispatch();
+  const isAppDataProcessing = useAppSelector(getAppDataProcessingStatus);
+  const [isFormValid, setIsFormValid] = useState(false);
   const [formData, setFormData] = useState({
     rating: 0,
     comment: ''
   });
+
+  useEffect(() => {
+    let isMounted = true;
+
+    if (isMounted) {
+      if ((formData.comment.length >= 50 && formData.comment.length <= 400) && formData.rating > 0) {
+        setIsFormValid(true);
+      } else {
+        setIsFormValid(false);
+      }
+    }
+
+    return () => {
+      isMounted = false;
+    };
+  }, [formData]);
+
+  const onFormSubmit = (evt: FormEvent<HTMLFormElement>) => {
+    evt.preventDefault();
+
+    if (isFormValid) {
+      dispatch(addNewCommentAction({ filmId: props.film.id, commentData: formData }));
+    }
+  };
 
   const onRatingInputChange = (evt: ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, rating: Number.parseInt(evt.target.value, 10) });
@@ -15,7 +51,7 @@ function AddReviewForm(): JSX.Element {
   };
 
   return (
-    <form action="#" className="add-review__form">
+    <form onSubmit={ onFormSubmit } action="#" className="add-review__form">
       <div className="rating">
         <div className="rating__stars">
           <input onChange={ onRatingInputChange } className="rating__input" id="star-10" type="radio" name="rating" value="10" />
@@ -51,9 +87,14 @@ function AddReviewForm(): JSX.Element {
       </div>
 
       <div className="add-review__text">
-        <textarea onChange={ onReviewTextAreaChange } className="add-review__textarea" name="review-text" id="review-text" placeholder="Review text"></textarea>
+        <textarea onChange={ onReviewTextAreaChange } className="add-review__textarea" name="review-text" id="review-text" placeholder="Review text" minLength={50} maxLength={400} required></textarea>
         <div className="add-review__submit">
-          <button className="add-review__btn" type="submit">Post</button>
+          <button
+            className="add-review__btn"
+            type="submit"
+            disabled={ !isFormValid || isAppDataProcessing }
+          >{ isAppDataProcessing ? 'Sending...' : 'Post' }
+          </button>
         </div>
       </div>
     </form>

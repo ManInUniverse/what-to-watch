@@ -1,11 +1,14 @@
 import { FormEvent, useRef } from 'react';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
+import { useAppSelector } from '../../hooks/useAppSelector';
 import { loginAction } from '../../store/api-actions';
+import { getUserProcessingStatus } from '../../store/slices/user-process/selectors';
 
 function SignInForm(): JSX.Element {
   const emailInputRef = useRef<HTMLInputElement | null>(null);
   const passwordInputRef = useRef<HTMLInputElement | null>(null);
   const dispatch = useAppDispatch();
+  const isUserProcessing = useAppSelector(getUserProcessingStatus);
 
   const onFormSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
@@ -47,7 +50,12 @@ function SignInForm(): JSX.Element {
         </div>
       </div>
       <div className="sign-in__submit">
-        <button className="sign-in__btn" type="submit">Sign in</button>
+        <button
+          className="sign-in__btn"
+          type="submit"
+          disabled={ isUserProcessing }
+        >{ isUserProcessing ? 'Authorization...' : 'Sign in' }
+        </button>
       </div>
     </form>
   );

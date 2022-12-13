@@ -1,27 +1,49 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link, Outlet, useParams } from 'react-router-dom';
 import { AppRoute } from '../../const';
-import { Films } from '../../types/film';
+import { useAppDispatch } from '../../hooks/useAppDispatch';
+import { fetchCommentsAction, fetchCurrentFilmAction, fetchSimilarFilmsAction } from '../../store/api-actions';
+import { getComments, getCurrentFilm, getErrorStatus, getSimilarFilms } from '../../store/slices/app-data/selectors';
+import { useAppSelector } from '../../hooks/useAppSelector';
 
+import ErrorPage from '../error-page/error-page';
+import LoadingPage from '../loading-page/loading-page';
 import NotFoundPage from '../not-found-page/not-found-page';
+import AddToFavoriteButton from '../../components/add-to-favorite-button/add-to-favorite-button';
 import FilmsList from '../../components/films-list/films-list';
-import FilmNavItem from '../../components/film-nav-item/film-nav-item';
 import UserBlock from '../../components/user-block/user-block';
-
-type FilmPageProps = {
-  films: Films;
-}
+import FilmNavItem from '../../components/film-nav-item/film-nav-item';
 
 const SIMILAR_FILMS_COUNT = 4;
 
-function FilmPage(props: FilmPageProps): JSX.Element {
+function FilmPage(): JSX.Element {
   const { id } = useParams<{ id: string }>();
-  const currentFilm = props.films.find((film) => film.id === Number(id));
+  const currentFilmId = Number(id);
 
-  if (!currentFilm) {
-    return (
-      <NotFoundPage />
-    );
+  const dispatch = useAppDispatch();
+  const currentFilm = useAppSelector(getCurrentFilm);
+  const comments = useAppSelector(getComments);
+  const similarFilms = useAppSelector(getSimilarFilms);
+  const hasError = useAppSelector(getErrorStatus);
+
+  useEffect(() => {
+    if (currentFilmId) {
+      dispatch(fetchCurrentFilmAction({ filmId: currentFilmId }));
+      dispatch(fetchCommentsAction({ filmId: currentFilmId }));
+      dispatch(fetchSimilarFilmsAction({ filmId: currentFilmId }));
+    }
+  }, [dispatch, currentFilmId]);
+
+  if (!currentFilmId) {
+    return <NotFoundPage />;
+  }
+
+  if (currentFilm === null) {
+    return <LoadingPage />;
+  }
+
+  if (hasError) {
+    return <ErrorPage />;
   }
 
   return (
@@ -61,13 +83,7 @@ function FilmPage(props: FilmPageProps): JSX.Element {
                   </svg>
                   <span>Play</span>
                 </Link>
-                <button className="btn btn--list film-card__button" type="button">
-                  <svg viewBox="0 0 19 20" width="19" height="20">
-                    <use xlinkHref="#add"></use>
-                  </svg>
-                  <span>My list</span>
-                  <span className="film-card__count">9</span>
-                </button>
+                <AddToFavoriteButton film={ currentFilm } />
                 <Link className="btn film-card__button" to={ `/films/${ currentFilm.id }/review` }>Add review</Link>
               </div>
             </div>
@@ -89,7 +105,7 @@ function FilmPage(props: FilmPageProps): JSX.Element {
                 </ul>
               </nav>
 
-              <Outlet context={ currentFilm } />
+              <Outlet context={ [currentFilm, comments] } />
 
             </div>
           </div>
@@ -100,7 +116,7 @@ function FilmPage(props: FilmPageProps): JSX.Element {
         <section className="catalog catalog--like-this">
           <h2 className="catalog__title">More like this</h2>
 
-          <FilmsList films={ props.films.slice(0, SIMILAR_FILMS_COUNT) } />
+          <FilmsList films={ similarFilms.slice(0, SIMILAR_FILMS_COUNT) } />
 
         </section>
 

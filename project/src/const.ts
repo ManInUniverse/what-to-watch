@@ -23,8 +23,15 @@ export enum RatingDescription {
 
 export enum APIRoute {
   Films = '/films',
+  Favorite = '/favorite',
+  Promo = '/promo',
+  Comments = '/comments',
   Login = '/login',
   Logout = '/logout',
 }
 
-export const SHOW_ERROR_TIMEOUT = 3000;
+export enum NameSpace {
+  Data = 'DATA',
+  App = 'APP',
+  User = 'USER',
+}

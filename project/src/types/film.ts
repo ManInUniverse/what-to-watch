@@ -19,3 +19,5 @@ export type Film = {
 };
 
 export type Films = Film[];
+
+export type FilmStatus = 1 | 0;

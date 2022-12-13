@@ -1,15 +1,14 @@
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../const';
-import { Films } from '../../types/film';
+import { useAppSelector } from '../../hooks/useAppSelector';
+import { getFavoriteFilms } from '../../store/slices/app-data/selectors';
 
 import FilmsList from '../../components/films-list/films-list';
 import UserBlock from '../../components/user-block/user-block';
 
-type MyListPageProps = {
-  films: Films;
-}
+function MyListPage(): JSX.Element {
+  const favoriteFilms = useAppSelector(getFavoriteFilms);
 
-function MyListPage(props: MyListPageProps): JSX.Element {
   return (
     <div className="user-page">
       <header className="page-header user-page__head">
@@ -21,16 +20,21 @@ function MyListPage(props: MyListPageProps): JSX.Element {
           </Link>
         </div>
 
-        <h1 className="page-title user-page__title">My list <span className="user-page__film-count">9</span></h1>
+        <h1 className="page-title user-page__title">
+          My list
+          {
+            favoriteFilms.length
+              ? <span className="user-page__film-count">{ favoriteFilms.length }</span>
+              : null
+          }
+        </h1>
 
         <UserBlock />
       </header>
 
       <section className="catalog">
         <h2 className="catalog__title visually-hidden">Catalog</h2>
-
-        <FilmsList films={ props.films }/>
-
+        <FilmsList films={ favoriteFilms }/>
       </section>
 
       <footer className="page-footer">
