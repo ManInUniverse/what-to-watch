@@ -3,11 +3,12 @@ import { AppRoute, AuthorizationStatus } from '../../const';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { useAppSelector } from '../../hooks/useAppSelector';
 import { logoutAction } from '../../store/api-actions';
+import { getAuthorizationStatus, getUserData } from '../../store/slices/user-process/selectors';
 
 function UserBlock(): JSX.Element {
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
-  const userData = useAppSelector((state) => state.userData);
   const dispatch = useAppDispatch();
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
+  const userData = useAppSelector(getUserData);
 
   if (authorizationStatus === AuthorizationStatus.Auth) {
     return (
@@ -19,6 +20,9 @@ function UserBlock(): JSX.Element {
         </li>
         <li className="user-block__item">
           <a className="user-block__link" href="/" onClick={ (evt) => { evt.preventDefault(); dispatch(logoutAction()); } }>Sign out</a>
+        </li>
+        <li className="user-block__item">
+          <Link className="user-block__link" to={ AppRoute.MyList }>My list</Link>
         </li>
       </ul>
     );

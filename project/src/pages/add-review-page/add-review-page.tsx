@@ -1,23 +1,41 @@
+import { useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { AppRoute } from '../../const';
-import { Films } from '../../types/film';
+import { useAppDispatch } from '../../hooks/useAppDispatch';
+import { useAppSelector } from '../../hooks/useAppSelector';
+import { getCurrentFilm, getErrorStatus } from '../../store/slices/app-data/selectors';
+import { fetchCurrentFilmAction } from '../../store/api-actions';
 
 import NotFoundPage from '../not-found-page/not-found-page';
 import AddReviewForm from '../../components/add-review-form/add-review-form';
 import UserBlock from '../../components/user-block/user-block';
+import ErrorPage from '../error-page/error-page';
+import LoadingPage from '../loading-page/loading-page';
 
-type AddReviewPageProps = {
-  films: Films;
-}
-
-function AddReviewPage(props: AddReviewPageProps): JSX.Element {
+function AddReviewPage(): JSX.Element {
   const { id } = useParams<{ id: string }>();
-  const currentFilm = props.films.find((film) => film.id === Number(id));
+  const currentFilmId = Number(id);
 
-  if (!currentFilm) {
-    return (
-      <NotFoundPage />
-    );
+  const dispatch = useAppDispatch();
+  const currentFilm = useAppSelector(getCurrentFilm);
+  const hasError = useAppSelector(getErrorStatus);
+
+  useEffect(() => {
+    if (currentFilmId) {
+      dispatch(fetchCurrentFilmAction({ filmId: currentFilmId }));
+    }
+  }, [dispatch, currentFilmId]);
+
+  if (!currentFilmId) {
+    return <NotFoundPage />;
+  }
+
+  if (currentFilm === null) {
+    return <LoadingPage />;
+  }
+
+  if (hasError) {
+    return <ErrorPage />;
   }
 
   return (
@@ -62,7 +80,7 @@ function AddReviewPage(props: AddReviewPageProps): JSX.Element {
       </div>
 
       <div className="add-review">
-        <AddReviewForm />
+        <AddReviewForm film={ currentFilm } />
       </div>
     </section>
   );

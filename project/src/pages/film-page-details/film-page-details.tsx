@@ -9,21 +9,21 @@ const getTimeFromMinutes = (runTime: Film['runTime']) => {
 };
 
 function FilmPageDetails(): JSX.Element {
-  const film = useOutletContext<Film>();
+  const [currentFilm] = useOutletContext<[Film]>();
 
   return (
     <div className="film-card__text film-card__row">
       <div className="film-card__text-col">
         <p className="film-card__details-item">
           <strong className="film-card__details-name">Director</strong>
-          <span className="film-card__details-value">{ film.director }</span>
+          <span className="film-card__details-value">{ currentFilm.director }</span>
         </p>
         <p className="film-card__details-item">
           <strong className="film-card__details-name">Starring</strong>
           <span className="film-card__details-value">
 
             {
-              film.starring.map((actor, index, array) => {
+              currentFilm.starring.map((actor, index, array) => {
                 if (index === array.length - 1) {
                   return actor;
                 }
@@ -42,15 +42,15 @@ function FilmPageDetails(): JSX.Element {
       <div className="film-card__text-col">
         <p className="film-card__details-item">
           <strong className="film-card__details-name">Run Time</strong>
-          <span className="film-card__details-value">{ getTimeFromMinutes(film.runTime) }</span>
+          <span className="film-card__details-value">{ getTimeFromMinutes(currentFilm.runTime) }</span>
         </p>
         <p className="film-card__details-item">
           <strong className="film-card__details-name">Genre</strong>
-          <span className="film-card__details-value">{ film.genre }</span>
+          <span className="film-card__details-value">{ currentFilm.genre }</span>
         </p>
         <p className="film-card__details-item">
           <strong className="film-card__details-name">Released</strong>
-          <span className="film-card__details-value">{ film.released }</span>
+          <span className="film-card__details-value">{ currentFilm.released }</span>
         </p>
       </div>
     </div>

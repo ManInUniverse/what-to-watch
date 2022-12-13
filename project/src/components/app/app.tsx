@@ -1,8 +1,12 @@
+import { useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
-import { AppRoute } from '../../const';
-import { Reviews } from '../../types/review';
+import { AppRoute, AuthorizationStatus } from '../../const';
 import { useAppSelector } from '../../hooks/useAppSelector';
 import { browserHistory } from '../../browser-history';
+import { getFilmsDataLoadingStatus, getErrorStatus } from '../../store/slices/app-data/selectors';
+import { getAuthCheckedStatus, getAuthorizationStatus } from '../../store/slices/user-process/selectors';
+import { useAppDispatch } from '../../hooks/useAppDispatch';
+import { fetchFavoriteFilmsAction } from '../../store/api-actions';
 
 import AddReviewPage from '../../pages/add-review-page/add-review-page';
 import MainPage from '../../pages/main-page/main-page';
@@ -15,21 +19,34 @@ import FilmPage from '../../pages/film-page/film-page';
 import FilmPageOverview from '../../pages/film-page-overview/film-page-overview';
 import FilmPageDetails from '../../pages/film-page-details/film-page-details';
 import FilmPageReviews from '../../pages/film-page-reviews/film-page-reviews';
-
-import ScrollReseter from '../scroll-reseter/scroll-reseter';
+import ErrorPage from '../../pages/error-page/error-page';
 import PrivateRoute from '../private-route/private-route';
 import HistoryRouter from '../history-router/history-router';
+import ScrollReseter from '../scroll-reseter/scroll-reseter';
 
-type AppProps = {
-  reviews: Reviews;
-}
+function App(): JSX.Element {
+  const dispatch = useAppDispatch();
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
+  const isAuthChecked = useAppSelector(getAuthCheckedStatus);
+  const isFilmsDataLoading = useAppSelector(getFilmsDataLoadingStatus);
+  const hasError = useAppSelector(getErrorStatus);
 
-function App(props: AppProps): JSX.Element {
-  const isFilmsDataLoading = useAppSelector((state) => state.isFilmsDataLoading);
-  const films = useAppSelector((state) => state.films);
+  useEffect(() => {
+    if (authorizationStatus === AuthorizationStatus.Auth) {
+      dispatch(fetchFavoriteFilmsAction());
+    }
+  }, [dispatch, authorizationStatus]);
 
-  if (isFilmsDataLoading) {
-    return <LoadingPage />;
+  if (!isAuthChecked || isFilmsDataLoading) {
+    return (
+      <LoadingPage />
+    );
+  }
+
+  if (hasError) {
+    return (
+      <ErrorPage />
+    );
   }
 
   return (
@@ -39,7 +56,7 @@ function App(props: AppProps): JSX.Element {
       <Routes>
         <Route
           path={ AppRoute.Main }
-          element={ <MainPage films={ films } /> }
+          element={ <MainPage /> }
         />
 
         <Route
@@ -50,26 +67,30 @@ function App(props: AppProps): JSX.Element {
         <Route
           path={ AppRoute.MyList }
           element={
-            <PrivateRoute>
-              <MyListPage films={ films } />
+            <PrivateRoute authorizationStatus={ authorizationStatus }>
+              <MyListPage />
             </PrivateRoute>
           }
         />
 
-        <Route path={ AppRoute.Film } element={ <FilmPage films={ films } /> }>
+        <Route path={ AppRoute.Film } element={ <FilmPage /> }>
           <Route index element={ <FilmPageOverview /> } />
           <Route path={ `${ AppRoute.Film }/details` } element={ <FilmPageDetails /> } />
-          <Route path={ `${ AppRoute.Film }/reviews` } element={ <FilmPageReviews reviews={ props.reviews } /> } />
+          <Route path={ `${ AppRoute.Film }/reviews` } element={ <FilmPageReviews /> } />
         </Route>
 
         <Route
           path={ AppRoute.AddReview }
-          element={ <AddReviewPage films={ films } /> }
+          element={
+            <PrivateRoute authorizationStatus={ authorizationStatus }>
+              <AddReviewPage />
+            </PrivateRoute>
+          }
         />
 
         <Route
           path={ AppRoute.Player }
-          element={ <PlayerPage films={ films } /> }
+          element={ <PlayerPage /> }
         />
 
         <Route path="*" element={ <NotFoundPage /> } />

@@ -1,16 +1,27 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Films } from '../../types/film';
+import { useAppSelector } from '../../hooks/useAppSelector';
+import { getCurrentFilm, getFilms } from '../../store/slices/app-data/selectors';
+import { useAppDispatch } from '../../hooks/useAppDispatch';
+import { fetchPromoFilmAction } from '../../store/api-actions';
 
 import Catalog from '../../components/catalog/catalog';
 import UserBlock from '../../components/user-block/user-block';
+import LoadingPage from '../loading-page/loading-page';
+import AddToFavoriteButton from '../../components/add-to-favorite-button/add-to-favorite-button';
 
-type MainPageProps = {
-  films: Films;
-}
+function MainPage(): JSX.Element {
+  const dispatch = useAppDispatch();
+  const promoFilm = useAppSelector(getCurrentFilm);
+  const films = useAppSelector(getFilms);
 
-function MainPage(props: MainPageProps): JSX.Element {
-  const promoFilm = props.films[0];
+  useEffect(() => {
+    dispatch(fetchPromoFilmAction());
+  }, [dispatch]);
+
+  if (promoFilm === null) {
+    return <LoadingPage />;
+  }
 
   return (
     <React.Fragment>
@@ -53,13 +64,7 @@ function MainPage(props: MainPageProps): JSX.Element {
                   </svg>
                   <span>Play</span>
                 </Link>
-                <button className="btn btn--list film-card__button" type="button">
-                  <svg viewBox="0 0 19 20" width="19" height="20">
-                    <use xlinkHref="#add"></use>
-                  </svg>
-                  <span>My list</span>
-                  <span className="film-card__count">9</span>
-                </button>
+                <AddToFavoriteButton film={ promoFilm } />
               </div>
             </div>
           </div>
@@ -68,7 +73,7 @@ function MainPage(props: MainPageProps): JSX.Element {
 
       <div className="page-content">
 
-        <Catalog films={ props.films } />
+        <Catalog films={ films } />
 
         <footer className="page-footer">
           <div className="logo">

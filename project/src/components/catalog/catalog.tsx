@@ -42,7 +42,7 @@ function Catalog(props: CatalogProps): JSX.Element {
       <ul className="catalog__genres-list">
 
         { genresList.map((genre) => (
-          <li className={ `catalog__genres-item ${ genre === activeGenre ? 'catalog__genres-item--active' : '' }` } key={ genre }>
+          <li className={ `catalog__genres-item${ genre === activeGenre ? ' catalog__genres-item--active' : '' }` } key={ genre }>
             <a
               onClick={ (evt) => {
                 evt.preventDefault();
