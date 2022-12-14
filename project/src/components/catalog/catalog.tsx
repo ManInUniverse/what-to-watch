@@ -12,12 +12,13 @@ type CatalogProps = {
 
 const FILMS_COUNT_PER_STEP = 8;
 const DEFAULT_GENRE = 'All genres';
+const MAX_GENRES_COUNT_TO_DISPLAY = 9;
 
 const getGenresList = (films: Films) => {
   const genresList = new Set([DEFAULT_GENRE]);
   films.forEach((film) => genresList.add(film.genre));
 
-  return Array.from(genresList);
+  return Array.from(genresList).slice(0, MAX_GENRES_COUNT_TO_DISPLAY + 1);
 };
 
 const getFilmsByGenre = (films: Films, genre: Film['genre']) => {
