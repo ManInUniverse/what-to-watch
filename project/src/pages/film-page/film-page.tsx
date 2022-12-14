@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react';
 import { Link, Outlet, useParams } from 'react-router-dom';
-import { AppRoute } from '../../const';
+import { AppRoute, AuthorizationStatus } from '../../const';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { fetchCommentsAction, fetchCurrentFilmAction, fetchSimilarFilmsAction } from '../../store/api-actions';
 import { getComments, getCurrentFilm, getErrorStatus, getSimilarFilms } from '../../store/slices/app-data/selectors';
 import { useAppSelector } from '../../hooks/useAppSelector';
+import { getAuthorizationStatus } from '../../store/slices/user-process/selectors';
 
 import ErrorPage from '../error-page/error-page';
 import LoadingPage from '../loading-page/loading-page';
@@ -21,6 +22,7 @@ function FilmPage(): JSX.Element {
   const currentFilmId = Number(id);
 
   const dispatch = useAppDispatch();
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
   const currentFilm = useAppSelector(getCurrentFilm);
   const comments = useAppSelector(getComments);
   const similarFilms = useAppSelector(getSimilarFilms);
@@ -84,7 +86,11 @@ function FilmPage(): JSX.Element {
                   <span>Play</span>
                 </Link>
                 <AddToFavoriteButton film={ currentFilm } />
-                <Link className="btn film-card__button" to={ `/films/${ currentFilm.id }/review` }>Add review</Link>
+                {
+                  authorizationStatus === AuthorizationStatus.Auth
+                    ? <Link className="btn film-card__button" to={ `/films/${ currentFilm.id }/review` }>Add review</Link>
+                    : null
+                }
               </div>
             </div>
           </div>
