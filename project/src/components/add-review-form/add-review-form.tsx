@@ -5,6 +5,11 @@ import { addNewCommentAction } from '../../store/api-actions';
 import { getAppDataProcessingStatus } from '../../store/slices/app-data/selectors';
 import { Film } from '../../types/film';
 
+enum CommentLength {
+  MIN = 50,
+  MAX = 400,
+}
+
 type AddReviewFormProps = {
   film: Film;
 }
@@ -22,7 +27,7 @@ function AddReviewForm(props: AddReviewFormProps): JSX.Element {
     let isMounted = true;
 
     if (isMounted) {
-      if ((formData.comment.length >= 50 && formData.comment.length <= 400) && formData.rating > 0) {
+      if ((formData.comment.length >= CommentLength.MIN && formData.comment.length <= CommentLength.MAX) && formData.rating > 0) {
         setIsFormValid(true);
       } else {
         setIsFormValid(false);

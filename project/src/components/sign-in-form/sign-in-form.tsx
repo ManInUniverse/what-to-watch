@@ -1,4 +1,4 @@
-import { FormEvent, useRef } from 'react';
+import { FormEvent, useRef, useState } from 'react';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { useAppSelector } from '../../hooks/useAppSelector';
 import { loginAction } from '../../store/api-actions';
@@ -9,11 +9,27 @@ function SignInForm(): JSX.Element {
   const passwordInputRef = useRef<HTMLInputElement | null>(null);
   const dispatch = useAppDispatch();
   const isUserProcessing = useAppSelector(getUserProcessingStatus);
+  const [isPasswordValid, setIsPasswordValid] = useState(false);
+  const [message, setMessage] = useState('');
+
+  const onPasswordInputChange = () => {
+    if (passwordInputRef.current) {
+      const re = /^(?=.*\d)(?=.*[a-z]).{1,}$/;
+
+      if (re.test(passwordInputRef.current.value)) {
+        setIsPasswordValid(true);
+        setMessage('');
+      } else {
+        setIsPasswordValid(false);
+        setMessage('The password must contain one number and one letter.');
+      }
+    }
+  };
 
   const onFormSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
 
-    if (emailInputRef.current && passwordInputRef.current) {
+    if ((emailInputRef.current && passwordInputRef.current) && isPasswordValid) {
       dispatch(loginAction({
         email: emailInputRef.current.value,
         password: passwordInputRef.current.value
@@ -23,6 +39,9 @@ function SignInForm(): JSX.Element {
 
   return (
     <form onSubmit={ onFormSubmit } action="#" className="sign-in__form">
+      <div className="sign-in__message">
+        <p>{ message }</p>
+      </div>
       <div className="sign-in__fields">
         <div className="sign-in__field">
           <input
@@ -38,6 +57,7 @@ function SignInForm(): JSX.Element {
         </div>
         <div className="sign-in__field">
           <input
+            onChange={ onPasswordInputChange }
             className="sign-in__input"
             type="password"
             placeholder="Password"
